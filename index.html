@@ -5,24 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Upload Twinbon</title>
     <style>
-        body { text-align: center; font-family: Arial, sans-serif; }
-        .container { position: relative; display: inline-block; }
-        .background { width: 400px; }
-        .uploaded-img { position: absolute; top: 50px; left: 100px; width: 200px; height: 200px; border-radius: 10px; }
+        body { text-align: center; font-family: Arial, sans-serif; background-color: #f8f8f8; }
+        .container { 
+            position: relative; 
+            display: inline-block; 
+        }
+        .background { 
+            width: 100%; 
+            max-width: 400px; 
+            display: block; 
+        }
+        .uploaded-img { 
+            position: absolute; 
+            top: 50px; 
+            left: 50%; 
+            transform: translateX(-50%);
+            width: 200px; 
+            height: 200px; 
+            border-radius: 10px; 
+            display: none;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
     </style>
 </head>
 <body>
     <h2>Upload Foto Twinbon</h2>
     <input type="file" id="upload" accept="image/*">
     <br><br>
-    <div class="container">
-        <img src="background.jpg" class="background" id="background">
-        <img id="uploadedImg" class="uploaded-img" style="display: none;">
+    
+    <div class="container" id="capture">
+        <img src="https://ikhlas2212.github.io/twinbon-web/background.png" class="background" id="background" onerror="handleImageError()">
+        <img id="uploadedImg" class="uploaded-img">
     </div>
     <br>
+    
     <button onclick="downloadImage()">Download</button>
 
     <script>
+        function handleImageError() {
+            alert('Background tidak ditemukan! Pastikan file ada atau gunakan URL yang benar.');
+            document.getElementById('background').style.display = 'none';
+        }
+
         document.getElementById('upload').addEventListener('change', function(event) {
             const file = event.target.files[0];
             if (file) {
@@ -37,14 +61,19 @@
         });
 
         function downloadImage() {
-            html2canvas(document.querySelector(".container")).then(canvas => {
-                let link = document.createElement('a');
-                link.download = 'twinbon.png';
-                link.href = canvas.toDataURL();
-                link.click();
-            });
+            const container = document.getElementById("capture");
+            
+            setTimeout(() => {
+                html2canvas(container, { useCORS: true }).then(canvas => {
+                    let link = document.createElement('a');
+                    link.download = 'twinbon.png';
+                    link.href = canvas.toDataURL("image/png");
+                    link.click();
+                });
+            }, 500); 
         }
     </script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
 </html>
