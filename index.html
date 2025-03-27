@@ -30,6 +30,7 @@
         
         canvas {
             border-radius: 10px;
+            background: #f0f0f0;
         }
 
         .controls {
@@ -46,7 +47,7 @@
     <br><br>
 
     <div class="canvas-container">
-        <canvas id="twibbonCanvas" width="400" height="600"></canvas>
+        <canvas id="twibbonCanvas" width="600" height="800"></canvas>
     </div>
 
     <div class="controls">
@@ -67,7 +68,7 @@
         const ctx = canvas.getContext('2d');
 
         const twibbonOverlay = new Image();
-        twibbonOverlay.src = "https://ikhlas2212.github.io/twinbon-web/background.png"; // Ganti dengan PNG overlay yang sesuai
+        twibbonOverlay.src = "background.png"; // Ganti dengan URL PNG overlay twibbon
 
         let uploadedImage = new Image();
         let imgX = 50, imgY = 50, imgScale = 1;
@@ -92,9 +93,13 @@
 
         function drawCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Gambar foto di bawah
             if (uploadedImage.src) {
                 ctx.drawImage(uploadedImage, imgX, imgY, uploadedImage.width * imgScale / 2, uploadedImage.height * imgScale / 2);
             }
+
+            // Gambar twibbon di atas
             ctx.drawImage(twibbonOverlay, 0, 0, canvas.width, canvas.height);
         }
 
