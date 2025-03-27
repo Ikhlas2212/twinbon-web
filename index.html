@@ -6,8 +6,7 @@
     <title>Upload Twinbon</title>
     <style>
         body { text-align: center; font-family: Arial, sans-serif; }
-        
-        /* Gaya untuk tombol custom */
+
         .upload-btn {
             display: inline-block;
             padding: 10px 20px;
@@ -21,83 +20,33 @@
         .upload-btn:hover {
             background-color: #0056b3;
         }
-        
-        /* Sembunyikan input file */
+
         #upload {
             display: none;
         }
 
         .container { 
-            position: relative; 
+            position: relative;
             width: 400px; 
             height: 600px; 
-            display: inline-block; 
+            display: inline-block;
             overflow: hidden;
+            border: 2px solid #ddd;
+            border-radius: 10px;
         }
+
+        /* Background tetap (fixed position) */
         .background { 
             width: 100%; 
-            height: 100%; 
-            display: block;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
         }
+
+        /* Twibbon yang di-upload */
         .uploaded-img { 
-            position: absolute; 
-            top: 50%; 
+            position: absolute;
+            top: 50%;
             left: 50%;
-            width: 200px; 
-            height: 200px;
-            object-fit: cover;
-            border-radius: 10px;
-            display: none;
-            cursor: grab;
-            transform: translate(-50%, -50%) scale(1);
-        }
-    </style>
-</head>
-<body>
-    <h2>Upload Foto Twinbon</h2>
-
-    <!-- Tombol Custom Upload -->
-    <label for="upload" class="upload-btn">Pilih Foto</label>
-    <input type="file" id="upload" accept="image/*">
-
-    <br><br>
-    
-    <div class="container" id="capture">
-        <img src="https://ikhlas2212.github.io/twinbon-web/background.png" class="background" id="background">
-        <img id="uploadedImg" class="uploaded-img">
-    </div>
-    <br>
-    
-    <button onclick="downloadImage()">Download</button>
-
-    <script>
-        document.getElementById('upload').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const uploadedImg = document.getElementById('uploadedImg');
-                    uploadedImg.src = e.target.result;
-                    uploadedImg.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        function downloadImage() {
-            const container = document.getElementById("capture");
-
-            setTimeout(() => {
-                html2canvas(container, { useCORS: true }).then(canvas => {
-                    let link = document.createElement('a');
-                    link.download = 'twinbon.png';
-                    link.href = canvas.toDataURL("image/png");
-                    link.click();
-                });
-            }, 500);
-        }
-    </script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-</body>
-</html>
