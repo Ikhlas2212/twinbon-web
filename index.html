@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Twinbon</title>
+    <style>
+        body { text-align: center; font-family: Arial, sans-serif; }
+        .container { position: relative; display: inline-block; }
+        .background { width: 400px; }
+        .uploaded-img { position: absolute; top: 50px; left: 100px; width: 200px; height: 200px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+    <h2>Upload Foto Twinbon</h2>
+    <input type="file" id="upload" accept="image/*">
+    <br><br>
+    <div class="container">
+        <img src="background.jpg" class="background" id="background">
+        <img id="uploadedImg" class="uploaded-img" style="display: none;">
+    </div>
+    <br>
+    <button onclick="downloadImage()">Download</button>
+
+    <script>
+        document.getElementById('upload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const uploadedImg = document.getElementById('uploadedImg');
+                    uploadedImg.src = e.target.result;
+                    uploadedImg.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function downloadImage() {
+            html2canvas(document.querySelector(".container")).then(canvas => {
+                let link = document.createElement('a');
+                link.download = 'twinbon.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            });
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</body>
+</html>
