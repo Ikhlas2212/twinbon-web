@@ -66,13 +66,13 @@
         const canvas = document.getElementById('twibbonCanvas');
         const ctx = canvas.getContext('2d');
 
-        const background = new Image();
-        background.src = "https://ikhlas2212.github.io/twinbon-web/background.png"; // Ganti dengan URL twibbon yang sesuai
+        const twibbonOverlay = new Image();
+        twibbonOverlay.src = "https://ikhlas2212.github.io/twinbon-web/background.png"; // Ganti dengan PNG overlay yang sesuai
 
         let uploadedImage = new Image();
-        let imgX = 100, imgY = 150, imgScale = 1;
+        let imgX = 50, imgY = 50, imgScale = 1;
 
-        background.onload = function() {
+        twibbonOverlay.onload = function() {
             drawCanvas();
         };
 
@@ -92,10 +92,10 @@
 
         function drawCanvas() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
             if (uploadedImage.src) {
                 ctx.drawImage(uploadedImage, imgX, imgY, uploadedImage.width * imgScale / 2, uploadedImage.height * imgScale / 2);
             }
+            ctx.drawImage(twibbonOverlay, 0, 0, canvas.width, canvas.height);
         }
 
         function moveUp() { imgY -= 10; drawCanvas(); }
