@@ -6,6 +6,27 @@
     <title>Upload Twinbon</title>
     <style>
         body { text-align: center; font-family: Arial, sans-serif; }
+        
+        /* Gaya untuk tombol custom */
+        .upload-btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        .upload-btn:hover {
+            background-color: #0056b3;
+        }
+        
+        /* Sembunyikan input file */
+        #upload {
+            display: none;
+        }
+
         .container { 
             position: relative; 
             width: 400px; 
@@ -34,7 +55,11 @@
 </head>
 <body>
     <h2>Upload Foto Twinbon</h2>
+
+    <!-- Tombol Custom Upload -->
+    <label for="upload" class="upload-btn">Pilih Foto</label>
     <input type="file" id="upload" accept="image/*">
+
     <br><br>
     
     <div class="container" id="capture">
@@ -45,11 +70,7 @@
     
     <button onclick="downloadImage()">Download</button>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/interact.min.js"></script>
     <script>
-        let scale = 1; // Skala awal
-        let position = { x: 0, y: 0 }; // Posisi awal
-
         document.getElementById('upload').addEventListener('change', function(event) {
             const file = event.target.files[0];
             if (file) {
@@ -60,27 +81,6 @@
                     uploadedImg.style.display = 'block';
                 };
                 reader.readAsDataURL(file);
-            }
-        });
-
-        // Buat gambar bisa digeser
-        interact('#uploadedImg').draggable({
-            listeners: {
-                move(event) {
-                    position.x += event.dx;
-                    position.y += event.dy;
-                    event.target.style.transform = `translate(${position.x}px, ${position.y}px) scale(${scale})`;
-                }
-            }
-        });
-
-        // Buat gambar bisa diperbesar/diperkecil
-        interact('#uploadedImg').gesturable({
-            listeners: {
-                move(event) {
-                    scale *= (1 + event.ds);
-                    event.target.style.transform = `translate(${position.x}px, ${position.y}px) scale(${scale})`;
-                }
             }
         });
 
@@ -97,7 +97,7 @@
             }, 500);
         }
     </script>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 </body>
 </html>
