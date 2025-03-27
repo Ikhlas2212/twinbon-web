@@ -11,6 +11,7 @@
             width: 400px; 
             height: 600px; 
             display: inline-block; 
+            overflow: hidden;
         }
         .background { 
             width: 100%; 
@@ -19,12 +20,15 @@
         }
         .uploaded-img { 
             position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            object-fit: cover; /* Menyesuaikan gambar agar proporsional */
-            display: none; 
+            top: 50%; 
+            left: 50%;
+            width: 200px; 
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+            display: none;
+            cursor: grab;
+            transform: translate(-50%, -50%) scale(1);
         }
     </style>
 </head>
@@ -34,14 +38,18 @@
     <br><br>
     
     <div class="container" id="capture">
-        <img src="https://ikhlas2212.github.io/twinbon-web/background.png" class="background" id="background" onerror="alert('Background tidak ditemukan!')">
+        <img src="https://ikhlas2212.github.io/twinbon-web/background.png" class="background" id="background">
         <img id="uploadedImg" class="uploaded-img">
     </div>
     <br>
     
     <button onclick="downloadImage()">Download</button>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/interact.js/1.10.11/interact.min.js"></script>
     <script>
+        let scale = 1; // Skala awal
+        let position = { x: 0, y: 0 }; // Posisi awal
+
         document.getElementById('upload').addEventListener('change', function(event) {
             const file = event.target.files[0];
             if (file) {
@@ -52,6 +60,27 @@
                     uploadedImg.style.display = 'block';
                 };
                 reader.readAsDataURL(file);
+            }
+        });
+
+        // Buat gambar bisa digeser
+        interact('#uploadedImg').draggable({
+            listeners: {
+                move(event) {
+                    position.x += event.dx;
+                    position.y += event.dy;
+                    event.target.style.transform = `translate(${position.x}px, ${position.y}px) scale(${scale})`;
+                }
+            }
+        });
+
+        // Buat gambar bisa diperbesar/diperkecil
+        interact('#uploadedImg').gesturable({
+            listeners: {
+                move(event) {
+                    scale *= (1 + event.ds);
+                    event.target.style.transform = `translate(${position.x}px, ${position.y}px) scale(${scale})`;
+                }
             }
         });
 
